@@ -5,5 +5,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper  // 确保添加了 @Mapper 注解da
 public interface DanCiMapper extends BaseMapper<DanCi> {
-    // 可以添加自定义查询方法adsdas
+    // 可以添加自定义查询方法adsdasweqwe
 }
