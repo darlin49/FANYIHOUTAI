@@ -22,6 +22,8 @@ public class WordService extends ServiceImpl<WordMapper, Word> {
     private WordMapper wordMapper;
     @Autowired
     private WordDefinitionService wordDefinitionService;
+    @Autowired
+    private YoudaoWordDefinitionService youdaoWordDefinitionService;
     /**
      * 处理输入的单词字符串，将其拆分成单个单词并查询
      * @param inputWord 输入的单词字符串
@@ -59,8 +61,17 @@ public class WordService extends ServiceImpl<WordMapper, Word> {
             if (result != null) {
                 results.add(result);
             } else {
-                var definition = wordDefinitionService.getFormattedDefinition(singleWord);
-                results.add(definition);
+                //调用大模型DeepSeek返回json格式
+//                var definition = wordDefinitionService.getFormattedDefinition(singleWord);
+//                results.add(definition);
+
+
+                //调用有道
+                Word youdaoResult = youdaoWordDefinitionService.getWordDefinition(singleWord);
+                if (youdaoResult != null) {
+                    results.add(youdaoResult);
+                }
+
             }
         }
         
