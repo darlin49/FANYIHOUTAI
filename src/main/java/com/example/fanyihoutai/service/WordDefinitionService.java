@@ -34,20 +34,27 @@ public class WordDefinitionService {
      * 用于指导AI生成特定格式的单词释义
      */
     private static final String DEFINITION_PROMPT = """
-            请严格按照以下格式返回英文单词的词典释义（只返回下面三行格式的内容，不要其他任何内容）：
-            
-            [单词]
-            [词性缩写].
-            [中文释义1];[中文释义2];[...];
-
-            要求：
-            - 单词单独一行
-            - 词性单独列出（如存在多个词性用用/划分）
-            - 中文释义用分号分隔，最后用分号结尾
-            - 只返回释义内容，不要额外解释
-            - 使用英文标点符号
-            
-            现在请查询：%s
+            请以严谨的JSON格式返回单词解析数据，严格使用下方数据结构，不要使用markdown：
+                  
+                  {
+                    "data": [
+                      {
+                        "id": null,
+                        "word": "目标单词",
+                        "mean": "词性：中文释义；[领域]特定领域释义；<注释>补充说明"
+                      }
+                    ]
+                  }
+                  
+                  附加要求：
+                  1. 词性必须使用英文（如：v.、n.、adv.等）
+                  2. 多个释义之间用分号分隔
+                  
+                  4. 如是领域单词标注用方括号包裹（如：[医] [计算机]）
+                  5. 保持null值原样输出
+                  6. 所有标点符号使用中文标点
+                  
+                  请解析这个单词：%s
             """;
     
     /**
@@ -73,6 +80,7 @@ public class WordDefinitionService {
     public Word getFormattedDefinitionWithCustomPrompt(String word, String customPrompt) {
         // 使用自定义提示词调用DeepSeek API
         String response = deepSeekService.queryWord(word, customPrompt);
+        System.out.printf("qwe="+response);
         // 将返回的文本解析为Word对象
         return WordParseUtil.parseToWord(response);
     }

@@ -49,7 +49,7 @@ public class DeepSeekService {
         // 添加系统角色消息，设置 AI 助手的行为
         Map<String, String> systemMessage = new HashMap<>();
         systemMessage.put("role", "system");
-        systemMessage.put("content", "You are a helpful assistant");
+        systemMessage.put("content", "你是一个专业的英语词典助手，擅长提供准确的中文释义。请使用中文进行回答，注意使用规范的中文标点符号。");
         messages.add(systemMessage);
         
         // 添加用户消息，包含查询的单词和提示词
@@ -63,6 +63,11 @@ public class DeepSeekService {
         requestBody.put("model", "deepseek-chat");  // 使用 deepseek-chat 模型
         requestBody.put("messages", messages);       // 设置对话消息
         requestBody.put("stream", false);           // 不使用流式响应
+        
+        // 添加 response_format 参数以确保 JSON 输出
+        Map<String, String> responseFormat = new HashMap<>();
+        responseFormat.put("type", "json_object");
+        requestBody.put("response_format", responseFormat);
 
         // 创建 HTTP 请求实体
         HttpEntity<Map<String, Object>> request = new HttpEntity<>(requestBody, headers);
