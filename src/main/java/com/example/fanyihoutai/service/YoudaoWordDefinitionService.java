@@ -64,7 +64,7 @@ public class YoudaoWordDefinitionService {
                 }
             }
 
-            // 如果没有基本释义，尝试解析网络释义 (web_trans部分)
+            // 如果没有基本释义，尝试解析网络释义 (web_trans部分)、、、
             if (meaning.length() == 0 && root.has("web_trans")) {
                 JsonNode webTrans = root.get("web_trans").get("web-translation");
                 if (webTrans != null && webTrans.isArray() && webTrans.size() > 0) {
