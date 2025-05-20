@@ -60,6 +60,7 @@ public class WordService extends ServiceImpl<WordMapper, Word> {
 
             if (result != null) {
                 results.add(result);
+
             } else {
                 //调用大模型DeepSeek返回json格式
 //                var definition = wordDefinitionService.getFormattedDefinition(singleWord);
@@ -69,6 +70,8 @@ public class WordService extends ServiceImpl<WordMapper, Word> {
                 //调用有道
                 Word youdaoResult = youdaoWordDefinitionService.getWordDefinition(singleWord);
                 if (youdaoResult != null) {
+//                    System.out.printf("成功查询数据数据插入成功 数据信息为：\n");
+//                    System.out.printf(youdaoResult.toString());
                     results.add(youdaoResult);
                 }
 
@@ -86,7 +89,12 @@ public class WordService extends ServiceImpl<WordMapper, Word> {
         queryWrapper.eq("word", wordName);
         queryWrapper.select("word","mean");
         //打印查询的单词信息
-        System.out.println("查询的单词信息: " + wordMapper.selectOne(queryWrapper));
+        Word word2=wordMapper.selectOne(queryWrapper);
+
+        System.out.println("查询的单词信息: " + word2);
+        if (word2 == null) {
+            System.out.printf("数据库查为空");
+        }
         return wordMapper.selectOne(queryWrapper);
     }
 }

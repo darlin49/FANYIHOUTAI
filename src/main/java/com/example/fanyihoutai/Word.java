@@ -1,20 +1,28 @@
 package com.example.fanyihoutai;
 
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+
+import java.time.LocalDateTime;
+
 
 @TableName("Words")  // 确保表名正确
 public class Word {
 
+    //id自增
+
+
     private Integer id;
+
     private String word;
 
     private String mean;
 
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
 
-    // 无参构造 (JPA 要求)
-    public Word() {
-    }
 
     // getter & setter
     public Integer getId() {
@@ -41,9 +49,19 @@ public class Word {
         return mean;
     }
 
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
     public void setMean(String mean) {
         this.mean = mean;
     }
+
+
 
 
 
@@ -55,7 +73,7 @@ public class Word {
                "id=" + id +
                ", word='" + word + '\'' +
                ", mean='" + mean + '\'' +
-
+                   ", createTime=" + createTime +
                '}';
     }
 }
